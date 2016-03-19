@@ -1,0 +1,30 @@
+---
+title: "Microbiol612"
+author: "Corine Jackman"
+date: "March 18, 2016"
+output: html_document
+---
+
+gapminder
+getwd()
+gapminder<-read.table("./r-novice-gapminder-files/data/gapminder-FiveYearData.csv", sep=',', header=T)
+gapminder
+
+#Using gapminder data, display the life expectancies with its corresponding year for American countries only. Plot the life expectancies of  American countries between the 1950's to the present.
+
+install.packages('dplyr')
+library(dplyr)
+
+
+year_country_life_ <- gapminder %>% select(year,continent,country,lifeExp)
+
+year_country_life_Americas <- gapminder %>% 
+filter(continent=="Americas") %>%
+select(year,country,lifeExp)
+
+year_country_life_Americas
+
+
+ggplot(data = year_country_life_Americas, aes(x = year, y = lifeExp, color=country)) +ggtitle("Life Expectancy in American Countries") +
+  geom_point()
+  
