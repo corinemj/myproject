@@ -2,31 +2,48 @@
 title: "Microbiol612"
 author: "Corine Jackman"
 date: "March 18, 2016"
-output: html_document
+output: pdf_document
 ---
-#In order to become familiar with R, we used Gapminder which contained the country,the year, population, continent, life expecancy, and GDP per capita. The data #was saved to myprojects and  was uploaded during class using the following 2 lines of code. The term "gapminder" have the table as an output.
-
+#Introduction:
+In order to become familiar with R, we analyzed data from the Gapminder file which contained information for different countries regarding the year, population, continent, life expecancy, and GDP per capita. The data was saved to myprojects and  was uploaded during class using the following 2 lines of code shown below.
+```{r}
 getwd()
 gapminder<-read.table("./r-novice-gapminder-files/data/gapminder-FiveYearData.csv", sep=',', header=T)
-gapminder
+head(gapminder)
+```
 
-#The question was, using gapminder data, manipulate the list to specify the life expectancies and corresponding years of American countries only. Then, plot the life expectancies of  American countries between the 1950's to the present. In order to do this, dplyr package was installed and loaded using the following code.
+#Assignment:
+* **Part 1:** What is the mean and standard deviation of the life expectancies for each of the continents?
 
-install.packages('dplyr')
+* **Part 2:** Plot the mean and standard deviation for the continents. 
+
+##Part 1:
+In order to do this, the dplyr package was installed, loaded and the group_by() and summarize() functions were used. 
+
+
+```{r}
 library(dplyr)
 
-#Then, using pipes, the filter and select functions, gapminder was manipulated to show american countries with corresponding year and life expectancies. 
+lifeExp_bycontinents <- gapminder %>%
+    group_by(continent) %>%
+    summarize(mean_lifeExp=mean(lifeExp),
+    sd_lifeExp=sd(lifeExp))
 
-year_country_life_ <- gapminder %>% select(year,continent,country,lifeExp)
+lifeExp_bycontinents
 
-year_country_life_Americas <- gapminder %>% 
-filter(continent=="Americas") %>%
-select(year,country,lifeExp)
+```
 
-year_country_life_Americas
 
-#In order to plot this data, ggplot was installed by clicking packages and clicking "ggplot2". Then the following code showed the x axis, y axis and title as "year", "Life Expectancy" and "Life Expectancy in American Countries", respectively. The "color=country" designates a color to each country and geom_point() shows each data entry as an individual point on the plot.
+##Part 2:
+In order to plot this data, ggplot was installed by selecting "Packages" in Rstudio and clicking "ggplot2". Then, the following code shows the x axis, y axis and title as "continent", "mean life expectancy" and "Mean Life Expectancy for Continents", respectively. The "color=continent" designates a color for each continent, the geom_errorbar() designates error bars and geom_point() shows the mean life expectancy as an individual point on the plot.
 
-ggplot(data = year_country_life_Americas, aes(x = year, y = lifeExp, color=country)) +ggtitle("Life Expectancy in American Countries") +
-  geom_point()
+
+```{r}
+library(ggplot2)
+ggplot(lifeExp_bycontinents, aes(x = continent, y = mean_lifeExp, color=continent)) +ggtitle("Mean Life Expectancy for Continents") +
+  geom_errorbar(aes(ymin=mean_lifeExp-sd_lifeExp, ymax=mean_lifeExp+sd_lifeExp), width=0.1) +
+  geom_point(size=3)
+```
+
+
   
