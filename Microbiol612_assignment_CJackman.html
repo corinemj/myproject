@@ -167,7 +167,7 @@ lifeExp_bycontinents</code></pre>
 </div>
 <div id="part-2" class="section level2">
 <h2>Part 2:</h2>
-<p>In order to plot this data, ggplot was installed by selecting “Packages” in Rstudio and clicking “ggplot2”. Then, the following code shows the x axis, y axis and title as “continent”, “mean life expectancy” and “Mean Life Expectancy for Continents”, respectively. The “color=continent” designates a color for each continent, the geom_errorbar() designates error bars and geom_point() shows the mean life expectancy as an individual point on the plot.</p>
+<p>In order to plot this data, ggplot was installed by selecting “Packages” in Rstudio and clicking “ggplot2”. Then, the following code shows the x axis, y axis and title as “continent”, “mean life expectancy” and “Mean Life Expectancy for Continents”, respectively. The “color=continent” designates a color for each continent, the geom_errorbar() designates error bars and geom_point() shows the mean life expectancy as an individual point on the plot. Africa has the lowest mean life expectancy. Oceania has the highest mean life expectancy.</p>
 <pre class="r"><code>library(ggplot2)
 ggplot(lifeExp_bycontinents, aes(x = continent, y = mean_lifeExp, color=continent)) +ggtitle(&quot;Mean Life Expectancy for Continents&quot;) +
   geom_errorbar(aes(ymin=mean_lifeExp-sd_lifeExp, ymax=mean_lifeExp+sd_lifeExp), width=0.1) +
