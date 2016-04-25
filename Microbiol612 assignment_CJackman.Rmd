@@ -1,0 +1,49 @@
+---
+title: "Microbiol612"
+author: "Corine Jackman"
+date: "March 18, 2016"
+output: html_document
+---
+#Introduction:
+In order to become familiar with R, we analyzed data from the Gapminder file which contained information for different countries regarding the year, population, continent, life expecancy, and GDP per capita. The data was saved to myprojects and  was uploaded during class using the following 2 lines of code shown below.
+```{r}
+getwd()
+gapminder<-read.table("./r-novice-gapminder-files/data/gapminder-FiveYearData.csv", sep=',', header=T)
+head(gapminder)
+```
+
+#Assignment:
+* **Part 1:** What is the mean and standard deviation of the life expectancies for each of the continents?
+
+* **Part 2:** Plot the mean and standard deviation for the continents. 
+
+##Part 1:
+In order to do this, the dplyr package was installed, loaded and the group_by() and summarize() functions were used. 
+
+
+```{r}
+library(dplyr)
+
+lifeExp_bycontinents <- gapminder %>%
+    group_by(continent) %>%
+    summarize(mean_lifeExp=mean(lifeExp),
+    sd_lifeExp=sd(lifeExp))
+
+lifeExp_bycontinents
+
+```
+
+
+##Part 2:
+In order to plot this data, ggplot was installed by selecting "Packages" in Rstudio and clicking "ggplot2". Then, the following code shows the x axis, y axis and title as "continent", "mean life expectancy" and "Mean Life Expectancy for Continents", respectively. The "color=continent" designates a color for each continent, the geom_errorbar() designates error bars and geom_point() shows the mean life expectancy as an individual point on the plot.
+
+
+```{r}
+library(ggplot2)
+ggplot(lifeExp_bycontinents, aes(x = continent, y = mean_lifeExp, color=continent)) +ggtitle("Mean Life Expectancy for Continents") +
+  geom_errorbar(aes(ymin=mean_lifeExp-sd_lifeExp, ymax=mean_lifeExp+sd_lifeExp), width=0.1) +
+  geom_point(size=3)
+```
+
+
+  
